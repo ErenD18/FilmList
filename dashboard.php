@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-if(isset($_SESSION['kullanici_adi']) && (!isset($_GET['sayfa']) || $_GET['sayfa'] == 'anasayfa')) {
-    header("Location: dashboard.php");
+if(!isset($_SESSION['kullanici_adi'])) {
+    header("Location: index.php");
     exit();
 }
 
-$title = "FilmList";
+$title = "Dashboard - FilmList";
 $h1 = "FILMLIST";
 $sayfa = isset($_GET['sayfa']) ? ($_GET['sayfa']) : 'anasayfa';
 $h1_boyut = ($sayfa == 'anasayfa') ? '80px' : '60px';
@@ -76,6 +76,15 @@ try {
             color: black;
             font-size: 10.5px
         }
+        .profil-badge {
+            background-color: #28a745;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-family: Verdana;
+            font-size: 10.5px;
+        }
     </style>
 </head>
 
@@ -83,8 +92,21 @@ try {
 <div class="container-fluid py-3">
     <div class="d-flex justify-content-end">
         <h1 style="position: absolute; left: 5px; font-size: <?php echo $h1_boyut; ?>"><?php echo $h1?></h1>
-        <a href="index.php?sayfa=KayitOl" class="btn btn-light butonstili me-2">KAYIT OL</a>
-        <a href="index.php?sayfa=GirisYap" class="btn btn-light butonstili">GİRİŞ YAP</a>
+
+        <?php
+        if(isset($_SESSION['rol_id']) && $_SESSION['rol_id'] <= 2):
+            ?>
+            <a href="admin_filmler.php" class="btn btn-warning butonstili me-2">FİLM YÖNETİMİ</a>
+        <?php endif; ?>
+
+        <?php
+        if(isset($_SESSION['rol_id']) && $_SESSION['rol_id'] == 1):
+            ?>
+            <a href="kullanici_yonetimi.php" class="btn btn-danger butonstili me-2">KULLANICI YÖNETİMİ</a>
+        <?php endif; ?>
+
+        <span class="profil-badge me-2">👤 <?php echo htmlspecialchars($_SESSION['kullanici_adi']); ?></span>
+        <a href="cikis.php" class="btn btn-light butonstili">ÇIKIŞ YAP</a>
     </div>
 </div>
 <div class="container text-center">
@@ -96,7 +118,7 @@ try {
         <div class="row justify-content-center gy-4">
             <?php foreach($filmler as $film): ?>
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                    <a href="index.php?sayfa=<?php echo htmlspecialchars($film['sayfa_adi']); ?>">
+                    <a href="dashboard.php?sayfa=<?php echo htmlspecialchars($film['sayfa_adi']); ?>">
                         <img src="<?php echo htmlspecialchars($film['resim_yolu']); ?>"
                              class="img-fluid rounded shadow"
                              alt="<?php echo htmlspecialchars($film['baslik']); ?>">
@@ -106,23 +128,16 @@ try {
         </div>
         <?php
     } else {
-        $ozel_sayfalar = ['KayitOl', 'GirisYap'];
-        $dosyaAdi = $sayfa . '.php';
+        $film_query = $db->prepare("SELECT * FROM filmler WHERE sayfa_adi = :sayfa_adi");
+        $film_query->execute(['sayfa_adi' => $sayfa]);
+        $film_varmi = $film_query->fetch(PDO::FETCH_ASSOC);
 
-        if (in_array($sayfa, $ozel_sayfalar) && file_exists($dosyaAdi)) {
-            require $dosyaAdi;
+        if ($film_varmi) {
+            require 'film_sablon.php';
         } else {
-            $film_query = $db->prepare("SELECT * FROM filmler WHERE sayfa_adi = :sayfa_adi");
-            $film_query->execute(['sayfa_adi' => $sayfa]);
-            $film_varmi = $film_query->fetch(PDO::FETCH_ASSOC);
-
-            if ($film_varmi) {
-                require 'film_sablon.php';
-            } else {
-                ?>
-                <p class="fs-3">Sayfa bulunamadı!</p>
-                <?php
-            }
+            ?>
+            <p class="fs-3">Sayfa bulunamadı!</p>
+            <?php
         }
     }
     ?>
