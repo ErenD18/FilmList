@@ -6,4 +6,4 @@ Filmlerin kaydını tutup puanlandırabileceğimiz bir web sitesi.
 Kullanıcı isimleri: admin, moderator, test_uye 
 Tüm kullanıcıların şifresi: 123456 
 phpmyadmin Username: root Şifre: (yok) 
-veritabani.sql dosyası PhpMyAdmin'de çalıştırılabilir.
+testdb.sql dosyası PhpMyAdmin'de çalıştırılabilir.
