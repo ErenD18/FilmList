@@ -3,7 +3,7 @@ session_start();
 
 if(!isset($_SESSION['kullanici_adi']) || !isset($_SESSION['rol_id']) || $_SESSION['rol_id'] != 1) {
     die('<div style="text-align:center; margin-top:50px; color:white; background:#1a1a1a; padding:100px;">
-            <h1>❌ Erişim Engellendi</h1>
+            <h1>⛔ Erişim Engellendi</h1>
             <p>Bu sayfaya sadece Admin erişebilir.</p>
             <a href="dashboard.php" style="color:#28a745;">Ana Sayfaya Dön</a>
          </div>');
@@ -12,7 +12,7 @@ if(!isset($_SESSION['kullanici_adi']) || !isset($_SESSION['rol_id']) || $_SESSIO
 $host = "localhost";
 $dbname = "testdb";
 $user = "root";
-$pass = "";
+$pass = "mysql378";
 
 try {
     $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);

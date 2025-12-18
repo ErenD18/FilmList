@@ -3,7 +3,7 @@ session_start();
 $host = "localhost";
 $dbname = "testdb";
 $user = "root";
-$pass = "";
+$pass = "mysql378";
 
 try {
     $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <h1 style="color:white; margin-bottom:20px;">KAYIT OL</h1>
 
         <?php if (!empty($error)) : ?>
-            <p style="color:red; background:rgba(255,0,0,0.1); padding:10px; border-radius:5px;">❌ <?php echo $error; ?></p>
+            <p style="color:red; background:rgba(255,0,0,0.1); padding:10px; border-radius:5px;">⛔ <?php echo $error; ?></p>
         <?php endif; ?>
         
         <?php if (!empty($success)) : ?>

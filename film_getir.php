@@ -10,7 +10,7 @@ if(!isset($_SESSION['kullanici_adi']) || !isset($_SESSION['user_id'])) {
 $host = "localhost";
 $dbname = "testdb";
 $user = "root";
-$pass = "";
+$pass = "mysql378";
 
 try {
     $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);

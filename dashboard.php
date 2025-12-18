@@ -14,7 +14,7 @@ $h1_boyut = ($sayfa == 'anasayfa') ? '80px' : '60px';
 $host = "localhost";
 $dbname = "testdb";
 $user = "root";
-$pass = "";
+$pass = "mysql378";
 
 try {
     $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
